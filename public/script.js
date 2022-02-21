@@ -49,6 +49,8 @@ class DowlingLatin {
       this.input.classList = 'right';
 
       this.awaitEnter().then(() => {
+        // If they've changed the value and then pressed enter
+        if (this.input.value != this.currentCase()) return;
         this.case++;
         this.input.value = "";
         this.updateHeadings();
