@@ -5,8 +5,9 @@ class DowlingLatin {
   numWords = 0;
   numCases = 0;
 
-  constructor(data) {
+  constructor(data, onFinish) {
     this.data = data;
+    this.finish = onFinish
 
     this.numWords = data.words.length;
     this.numCases = data.headings.length;
@@ -69,7 +70,7 @@ class DowlingLatin {
       this.word++;
       this.updateHeadings();
     } else {
-      window.location.replace('/')
+      this.finish();
     }
   }
 
@@ -108,10 +109,6 @@ class DowlingLatin {
       button.focus();
     }
   }
-
-  redraw() {
-
-  }
 }
 
 async function main() {
@@ -120,7 +117,7 @@ async function main() {
     const resp = await fetch(`/${what}.json`)
     const data = await resp.json();
 
-    new DowlingLatin(data);
+    new DowlingLatin(data, () => window.location.replace(`/summary?what=${what}`));
   } else {
     window.location.replace('/');
   }
