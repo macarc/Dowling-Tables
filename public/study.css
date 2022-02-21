@@ -14,9 +14,6 @@ main {
   width: 60vw;
 }
 
-h2 {
-  margin: 0 0 1rem;
-}
 
 table {
   margin: 0;
@@ -28,12 +25,3 @@ th {
   border-radius: 0.3rem;
 }
 
-
-button.go-home {
-  background: blue;
-  color: white;
-  margin-top: 2rem;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-}

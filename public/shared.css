@@ -37,3 +37,11 @@ button {
   cursor: pointer;
 }
 
+button.go-home {
+  background: blue;
+  color: white;
+  margin-top: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
