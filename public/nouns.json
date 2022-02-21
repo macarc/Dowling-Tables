@@ -42,6 +42,186 @@
         "amīcōs",
         "amīcīs"
       ]
+    },
+    {
+      "name": "Boy (masc.)",
+      "cases": [
+        "puer",
+        "puerī",
+        "puerō",
+        "puerum",
+        "puerō",
+        "puerī",
+        "puerōrum",
+        "puerīs",
+        "puerōs",
+        "puerīs"
+      ]
+    },
+    {
+      "name": "Field (masc.)",
+      "cases": [
+        "ager",
+        "agrī",
+        "agrō",
+        "agrum",
+        "agrō",
+        "agrī",
+        "agrōrum",
+        "agrīs",
+        "agrōs",
+        "agrīs"
+      ]
+    },
+    {
+      "name": "Gift (neut.)",
+      "cases": [
+        "donum",
+        "donī",
+        "donō",
+        "donum",
+        "donō",
+        "dona",
+        "donōrum",
+        "donīs",
+        "dona",
+        "donīs"
+      ]
+    },
+    {
+      "name": "King (masc.)",
+      "cases": [
+        "rēx",
+        "rēgis",
+        "rēgī",
+        "rēgem",
+        "rēge",
+        "rēgēs",
+        "rēgum",
+        "rēgibus",
+        "rēgēs",
+        "rēgibus"
+      ]
+    },
+    {
+      "name": "Body (neut.)",
+      "cases": [
+        "corpus",
+        "corporis",
+        "corporī",
+        "corpus",
+        "corpore",
+        "corpora",
+        "corporum",
+        "corporibus",
+        "corpora",
+        "corporibus"
+      ]
+    },
+    {
+      "name": "Citizen (masc.)",
+      "cases": [
+        "cīvis",
+        "cīvis",
+        "cīvī",
+        "cīvem",
+        "cīve",
+        "cīvēs",
+        "cīvium",
+        "cīvibus",
+        "cīvēs",
+        "cīvibus"
+      ]
+    },
+    {
+      "name": "City (fem.)",
+      "cases": [
+        "urbs",
+        "urbis",
+        "urbī",
+        "urbem",
+        "urbe",
+        "urbēs",
+        "urbium",
+        "urbibus",
+        "urbēs",
+        "urbibus"
+      ]
+    },
+    {
+      "name": "Sea (neut.)",
+      "cases": [
+        "mare",
+        "maris",
+        "marī",
+        "mare",
+        "marī",
+        "maria",
+        "marium",
+        "maribus",
+        "maria",
+        "maribus"
+      ]
+    },
+    {
+      "name": "Fruit (masc.)",
+      "cases": [
+        "frūctus",
+        "frūctūs",
+        "frūctuī",
+        "frūctum",
+        "frūctū",
+        "frūctūs",
+        "frūctuum",
+        "frūctibus",
+        "frūctūs",
+        "frūctibus"
+      ]
+    },
+    {
+      "name": "Horn (neut.)",
+      "cases": [
+        "cornū",
+        "cornūs",
+        "cornū",
+        "cornū",
+        "cornū",
+        "cornua",
+        "cornuum",
+        "cornibus",
+        "cornua",
+        "cornibus"
+      ]
+    },
+    {
+      "name": "Day (masc.)",
+      "cases": [
+        "diēs",
+        "diēī",
+        "diēī",
+        "diem",
+        "diē",
+        "diēs",
+        "diērum",
+        "diēbus",
+        "diēs",
+        "diēbus"
+      ]
+    },
+    {
+      "name": "Power (fem.)",
+      "cases": [
+        "vīs",
+        "vīs",
+        "vī",
+        "vim",
+        "vī",
+        "vīrēs",
+        "vīrium",
+        "vīribus",
+        "vīrēs",
+        "vīribus"
+      ]
     }
   ]
 }
