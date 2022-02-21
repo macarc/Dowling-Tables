@@ -1,0 +1,39 @@
+* {
+  font-family: sans-serif;
+}
+
+body {
+  background: lightblue;
+}
+
+main {
+  background: white;
+  border-radius: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+  width: 80vw;
+  padding: 3rem;
+}
+
+h1 {
+  text-align: center;
+}
+
+kbd {
+  font-family: monospace;
+}
+
+button {
+  background: lightgreen;
+  border: none;
+  border-radius: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  margin-top: 1rem;
+  font-size: 1rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+

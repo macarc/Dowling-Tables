@@ -1,0 +1,47 @@
+{
+  "name": "Nouns",
+  "headings": [
+    "Nominative Sg.",
+    "Genitive Sg.",
+    "Dative Sg.",
+    "Accusative Sg.",
+    "Ablative Sg.",
+    "Nominative Pl.",
+    "Genitive Pl.",
+    "Dative Pl.",
+    "Accusative Pl.",
+    "Ablative Pl."
+  ],
+  "words": [
+    {
+      "name": "Gate (fem.)",
+      "cases": [
+        "porta",
+        "portae",
+        "portae",
+        "portam",
+        "portā",
+        "portae",
+        "portārum",
+        "portīs",
+        "portās",
+        "portīs"
+      ]
+    },
+    {
+      "name": "Friend (masc.)",
+      "cases": [
+        "amīcus",
+        "amīcī",
+        "amīcō",
+        "amīcum",
+        "amīcō",
+        "amīcī",
+        "amīcōrum",
+        "amīcīs",
+        "amīcōs",
+        "amīcīs"
+      ]
+    }
+  ]
+}

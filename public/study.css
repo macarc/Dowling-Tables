@@ -1,0 +1,39 @@
+input {
+  border: 5px solid blue;
+  font-size: 1rem;
+}
+.wrong, .wrong:focus {
+  border: 5px solid red;
+}
+.right, .right:focus {
+  border: 5px solid lightgreen;
+}
+
+
+main {
+  width: 60vw;
+}
+
+h2 {
+  margin: 0 0 1rem;
+}
+
+table {
+  margin: 0;
+}
+
+th {
+  background: lightgreen;
+  padding: 0.3rem;
+  border-radius: 0.3rem;
+}
+
+
+button.go-home {
+  background: blue;
+  color: white;
+  margin-top: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
