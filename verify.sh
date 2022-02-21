@@ -1,12 +1,15 @@
 #!/bin/sh
 
-EXPECTED_LENGTH=$(cat $1 | jq '.headings | length')
-
-WORD_LENGTHS=$(cat $1 | jq '.words | .[] | .cases | length')
-
-for length in $WORD_LENGTHS
+for filename in public/*.json
 do
-  if [ "$length" != "$EXPECTED_LENGTH" ]; then
-    echo "Invalid!"
-  fi
+  EXPECTED_LENGTH=$(cat $filename | jq '.headings | length')
+
+  WORD_LENGTHS=$(cat $filename | jq '.words | .[] | .cases | length')
+
+  for length in $WORD_LENGTHS
+  do
+    if [ "$length" != "$EXPECTED_LENGTH" ]; then
+      echo "Invalid!"
+    fi
+  done
 done
