@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Latin by the Dowling Method</title>
+    <link href="/shared.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <h1>Latin by the Dowling Method</h1>
+    <main>
+      <input type="text" />
+    </main>
+    <script>
+      const input = document.querySelector('input');
+      input.addEventListener('input', e => {
+              const ch = e.data;
+              if (['A', 'E', 'I', 'O', 'U'].includes(ch)) {
+                      input.value = input.value.slice(0, -1);
+                      if (ch === 'A') input.value += 'ā'
+                      if (ch === 'E') input.value += 'ē'
+                      if (ch === 'I') input.value += 'ī'
+                      if (ch === 'O') input.value += 'ō'
+                      if (ch === 'U') input.value += 'ū'
+                    }
+
+              const cases = [];
+              for (const case_ of input.value.split(',')) {
+                      cases.push(case_);
+                    }
+
+              console.log(JSON.stringify(cases));
+            });
+    </script>
+  </body>
+</html>
