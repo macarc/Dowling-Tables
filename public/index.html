@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Latin by the Dowling Method</title>
     <link href="/shared.css" rel="stylesheet" type="text/css" />
+    <style>
+td button {
+  width: 100%;
+}
+td button {
+  margin: 0;
+}
+    </style>
   </head>
   <body>
 
@@ -20,8 +28,16 @@
       <p>You can type macrons by pressing <kbd>Shift</kbd> + <kbd>[vowel key]</kbd> (e.g. <kbd>Shift</kbd> + <kbd>a</kbd> makes ā).</p>
 
       <h2>Study</h2>
-      <a href="/study?what=nouns"><button>Nouns</button></a>
-      <a href="/study?what=adjectives"><button>Adjectives</button></a>
+      <table>
+        <tr>
+          <td><a href="/study?what=nouns"><button>Nouns</button></a></td>
+          <td><a href="/summary?what=nouns">Summary</a></td>
+        </tr>
+        <tr>
+          <td><a href="/study?what=adjectives"><button>Adjectives</button></a></td>
+          <td><a href="/summary?what=adjectives">Summary</a></td>
+        </tr>
+      </table>
     </main>
   </body>
 </html>
