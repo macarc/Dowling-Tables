@@ -82,8 +82,9 @@ class DowlingLatin {
   updateHeadings() {
     document.querySelector("h1").innerHTML = this.data.name;
     document.querySelector("h2").innerHTML = this.data.words[this.word].name;
-    const table = document.querySelector("table");
-    table.innerHTML = "";
+    let table = document.createElement("table");
+    const tableHolder = document.getElementById("table-holder");
+    tableHolder.innerHTML = "";
     for (let i = 0; i < this.case; i++) {
       const tr = document.createElement("tr");
       const th = document.createElement("th");
@@ -94,6 +95,11 @@ class DowlingLatin {
       tr.appendChild(th);
       tr.appendChild(td);
       table.appendChild(tr);
+
+      if ((i + 1) % this.data.split === 0) {
+        tableHolder.appendChild(table);
+        table = document.createElement("table");
+      }
     }
 
     if (this.case < this.numCases) {
@@ -106,12 +112,13 @@ class DowlingLatin {
       tr.appendChild(td);
 
       table.appendChild(tr);
+      tableHolder.appendChild(table);
       this.input.focus();
     } else {
       const button = document.createElement("button");
       button.innerText = "Continue";
       button.addEventListener("click", () => this.nextWord(button));
-      table.insertAdjacentElement("afterend", button);
+      tableHolder.insertAdjacentElement("afterend", button);
 
       button.focus();
     }

@@ -17,10 +17,12 @@ main {
 
 table {
   margin: 0;
+  margin-bottom: 1rem;
 }
 
 th {
   background: lightgreen;
   padding: 0.3rem;
   border-radius: 0.3rem;
+  width: 12vw;
 }

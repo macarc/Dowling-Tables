@@ -9,8 +9,12 @@ async function main() {
     const main = document.querySelector("main");
 
     for (const word of data.words) {
-      const table = document.createElement("table");
-      for (const i in word.cases) {
+      const heading = document.createElement("h2");
+      heading.innerText = word.name;
+      main.appendChild(heading);
+
+      let table = document.createElement("table");
+      for (let i = 0; i < word.cases.length; i++) {
         const tr = document.createElement("tr");
         const th = document.createElement("th");
         th.innerText = data.headings[i];
@@ -19,13 +23,11 @@ async function main() {
         tr.appendChild(th);
         tr.appendChild(td);
         table.appendChild(tr);
+        if ((i + 1) % data.split === 0) {
+          main.appendChild(table);
+          table = document.createElement("table");
+        }
       }
-
-      const heading = document.createElement("h2");
-      heading.innerText = word.name;
-
-      main.appendChild(heading);
-      main.appendChild(table);
     }
   } else {
     window.location.replace("/");
