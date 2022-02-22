@@ -94,9 +94,11 @@ class DowlingLatin {
     if (this.case < this.numCases) {
       const tr = document.createElement('tr');
       const th = document.createElement('th');
+      const td = document.createElement('td');
       th.innerText = this.data.headings[this.case];
+      td.appendChild(this.input);
       tr.appendChild(th);
-      tr.appendChild(this.input);
+      tr.appendChild(td);
 
       table.appendChild(tr);
       this.input.focus();
