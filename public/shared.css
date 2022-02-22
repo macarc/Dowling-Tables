@@ -12,8 +12,8 @@ main {
   margin-left: auto;
   margin-right: auto;
   margin-top: 1rem;
-  width: 80vw;
   padding: 3rem;
+  width: calc(80vw - 6rem);
 }
 
 h1 {
@@ -44,4 +44,11 @@ button.go-home {
   margin-left: auto;
   margin-right: auto;
   display: block;
+}
+
+@media only screen and (max-width: 500px) {
+  main {
+    padding: 1.5rem;
+    width: calc(95vw - 3rem) !important;
+  }
 }

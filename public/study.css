@@ -11,9 +11,8 @@ input {
 
 
 main {
-  width: 60vw;
+  width: calc(60vw - 6rem);
 }
-
 
 table {
   margin: 0;
@@ -24,4 +23,3 @@ th {
   padding: 0.3rem;
   border-radius: 0.3rem;
 }
-
