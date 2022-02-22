@@ -128,7 +128,7 @@ class DowlingLatin {
 async function main() {
   const what = new URLSearchParams(window.location.search).get("what");
   if (what) {
-    const resp = await fetch(`/${what}.json`);
+    const resp = await fetch(`/data/${what}.json`);
     const data = await resp.json();
 
     new DowlingLatin(data, () =>
