@@ -11,10 +11,6 @@ input {
   border: 5px solid lightgreen;
 }
 
-main {
-  width: calc(60vw - 6rem);
-}
-
 table {
   margin: 0;
   margin-bottom: 1rem;
