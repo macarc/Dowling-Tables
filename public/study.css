@@ -2,13 +2,14 @@ input {
   border: 5px solid blue;
   font-size: 1rem;
 }
-.wrong, .wrong:focus {
+.wrong,
+.wrong:focus {
   border: 5px solid red;
 }
-.right, .right:focus {
+.right,
+.right:focus {
   border: 5px solid lightgreen;
 }
-
 
 main {
   width: calc(60vw - 6rem);

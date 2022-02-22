@@ -7,28 +7,28 @@ class DowlingLatin {
 
   constructor(data, onFinish) {
     this.data = data;
-    this.finish = onFinish
+    this.finish = onFinish;
 
     this.numWords = data.words.length;
     this.numCases = data.headings.length;
 
-    this.input = document.createElement('input');
-    this.input.setAttribute('spellcheck', false);
-    this.input.addEventListener('input', this.onInput.bind(this));
+    this.input = document.createElement("input");
+    this.input.setAttribute("spellcheck", false);
+    this.input.addEventListener("input", this.onInput.bind(this));
 
     this.updateHeadings();
   }
 
   awaitEnter() {
-    return new Promise(res => {
-      const el = e => {
+    return new Promise((res) => {
+      const el = (e) => {
         if (e.keyCode === 13) {
-          this.input.removeEventListener('keyup', el);
+          this.input.removeEventListener("keyup", el);
           res();
         }
-      }
-      this.input.addEventListener('keyup', el)
-    })
+      };
+      this.input.addEventListener("keyup", el);
+    });
   }
 
   currentCase() {
@@ -37,17 +37,17 @@ class DowlingLatin {
 
   onInput(e) {
     const ch = e.data;
-    if (ch > 'z' || ch < 'a') {
+    if (ch > "z" || ch < "a") {
       this.input.value = this.input.value.slice(0, -1);
-      if (ch === 'A') this.input.value += 'ā'
-      if (ch === 'E') this.input.value += 'ē'
-      if (ch === 'I') this.input.value += 'ī'
-      if (ch === 'O') this.input.value += 'ō'
-      if (ch === 'U') this.input.value += 'ū'
+      if (ch === "A") this.input.value += "ā";
+      if (ch === "E") this.input.value += "ē";
+      if (ch === "I") this.input.value += "ī";
+      if (ch === "O") this.input.value += "ō";
+      if (ch === "U") this.input.value += "ū";
     }
 
     if (this.input.value === this.currentCase()) {
-      this.input.classList = 'right';
+      this.input.classList = "right";
 
       this.awaitEnter().then(() => {
         // If they've changed the value and then pressed enter
@@ -55,11 +55,13 @@ class DowlingLatin {
         this.case++;
         this.input.value = "";
         this.updateHeadings();
-      })
-    } else if (this.input.value != this.currentCase().slice(0, this.input.value.length)) {
-      this.input.classList = 'wrong';
+      });
+    } else if (
+      this.input.value != this.currentCase().slice(0, this.input.value.length)
+    ) {
+      this.input.classList = "wrong";
     } else {
-      this.input.classList = '';
+      this.input.classList = "";
     }
   }
 
@@ -75,26 +77,26 @@ class DowlingLatin {
   }
 
   updateHeadings() {
-    document.querySelector('h1').innerHTML = this.data.name;
-    document.querySelector('h2').innerHTML = this.data.words[this.word].name;
-    const table = document.querySelector('table');
-    table.innerHTML = '';
+    document.querySelector("h1").innerHTML = this.data.name;
+    document.querySelector("h2").innerHTML = this.data.words[this.word].name;
+    const table = document.querySelector("table");
+    table.innerHTML = "";
     for (let i = 0; i < this.case; i++) {
-      const tr = document.createElement('tr');
-      const th = document.createElement('th');
+      const tr = document.createElement("tr");
+      const th = document.createElement("th");
       th.innerText = this.data.headings[i];
-      const td = document.createElement('td');
+      const td = document.createElement("td");
       td.innerText = this.data.words[this.word].cases[i];
 
-      tr.appendChild(th)
-      tr.appendChild(td)
+      tr.appendChild(th);
+      tr.appendChild(td);
       table.appendChild(tr);
     }
 
     if (this.case < this.numCases) {
-      const tr = document.createElement('tr');
-      const th = document.createElement('th');
-      const td = document.createElement('td');
+      const tr = document.createElement("tr");
+      const th = document.createElement("th");
+      const td = document.createElement("td");
       th.innerText = this.data.headings[this.case];
       td.appendChild(this.input);
       tr.appendChild(th);
@@ -103,10 +105,10 @@ class DowlingLatin {
       table.appendChild(tr);
       this.input.focus();
     } else {
-      const button = document.createElement('button');
-      button.innerText = 'Continue'
-      button.addEventListener('click', () => this.nextWord(button));
-      table.insertAdjacentElement('afterend', button);
+      const button = document.createElement("button");
+      button.innerText = "Continue";
+      button.addEventListener("click", () => this.nextWord(button));
+      table.insertAdjacentElement("afterend", button);
 
       button.focus();
     }
@@ -114,15 +116,17 @@ class DowlingLatin {
 }
 
 async function main() {
-  const what = new URLSearchParams(window.location.search).get('what');
+  const what = new URLSearchParams(window.location.search).get("what");
   if (what) {
-    const resp = await fetch(`/${what}.json`)
+    const resp = await fetch(`/${what}.json`);
     const data = await resp.json();
 
-    new DowlingLatin(data, () => window.location.replace(`/summary?what=${what}`));
+    new DowlingLatin(data, () =>
+      window.location.replace(`/summary?what=${what}`)
+    );
   } else {
-    window.location.replace('/');
+    window.location.replace("/");
   }
 }
 
-document.addEventListener('DOMContentLoaded', main);
+document.addEventListener("DOMContentLoaded", main);
