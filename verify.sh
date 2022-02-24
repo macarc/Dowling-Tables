@@ -1,6 +1,6 @@
 #!/bin/sh
 
-for filename in public/*.json
+for filename in public/data/*.json
 do
   EXPECTED_LENGTH=$(cat $filename | jq '.headings | length')
 
