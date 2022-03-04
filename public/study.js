@@ -1,3 +1,33 @@
+/*** HELPER ***/
+async function ev(element, event) {
+  return new Promise((res) => {
+    function eventListener(e) {
+      element.removeEventListener(event, eventListener);
+      res(e);
+    }
+    element.addEventListener(event, eventListener);
+  });
+}
+function mk(tagName, inner = null) {
+  const el = document.createElement(tagName);
+  if (Array.isArray(inner)) {
+    inner.forEach((child) => el.appendChild(child));
+  } else if (typeof inner === "string") {
+    el.innerHTML = inner;
+  } else if (typeof inner === "object") {
+    for (const attr in inner) {
+      if (
+        inner[attr] !== false &&
+        inner[attr] !== undefined &&
+        inner[attr] !== null
+      )
+        el.setAttribute(attr, inner[attr]);
+    }
+  }
+  return el;
+}
+
+/*** DOWLING ***/
 class DowlingLatin {
   word = 0;
   case = 0;
@@ -5,60 +35,61 @@ class DowlingLatin {
   numWords = 0;
   numCases = 0;
 
-  constructor(data, onFinish) {
+  constructor(data) {
     this.data = data;
-    this.finish = onFinish;
 
     this.numWords = data.words.length;
     this.numCases = data.headings.length;
 
-    this.input = document.createElement("input");
-    this.input.setAttribute("spellcheck", false);
-    this.input.setAttribute("autocorrect", "off");
-    this.input.setAttribute("autocapitalize", "off");
-    this.input.setAttribute("autocomplete", "off");
+    this.input = mk("input", {
+      spellcheck: "false",
+      autocorrect: "off",
+      autocapitalize: "off",
+      autocomplete: "off",
+    });
     this.input.addEventListener("input", this.onInput.bind(this));
 
-    this.updateHeadings();
+    this.render();
   }
 
-  awaitEnter() {
-    return new Promise((res) => {
-      const el = (e) => {
-        if (e.keyCode === 13) {
-          this.input.removeEventListener("keyup", el);
-          res();
-        }
-      };
-      this.input.addEventListener("keyup", el);
-    });
+  async enterPress() {
+    let e = {};
+    while (e.keyCode !== 13) e = await ev(this.input, "keyup");
   }
 
+  currentWord() {
+    return this.data.words[this.word];
+  }
   currentCase() {
-    return this.data.words[this.word].cases[this.case];
+    return this.currentWord().cases[this.case];
   }
 
-  onInput(e) {
+  async onInput(e) {
     const ch = e.data;
     if ((ch > "z" || ch < "a") && ch !== " ") {
-      this.input.value = this.input.value.slice(0, -1);
-      if (ch === "A") this.input.value += "ā";
-      if (ch === "E") this.input.value += "ē";
-      if (ch === "I") this.input.value += "ī";
-      if (ch === "O") this.input.value += "ō";
-      if (ch === "U") this.input.value += "ū";
+      const rep = (oldCh, newCh) => {
+        if (ch === oldCh) {
+          this.input.value = this.input.value.replace(oldCh, newCh);
+          return false;
+        }
+        return true;
+      };
+      if (
+        rep("A", "ā") &&
+        rep("E", "ē") &&
+        rep("I", "ī") &&
+        rep("O", "ō") &&
+        rep("U", "ū")
+      )
+        this.input.value = this.input.value.slice(0, -1);
     }
 
     if (this.input.value === this.currentCase()) {
       this.input.classList = "right";
 
-      this.awaitEnter().then(() => {
-        // If they've changed the value and then pressed enter
-        if (this.input.value != this.currentCase()) return;
-        this.case++;
-        this.input.value = "";
-        this.updateHeadings();
-      });
+      await this.enterPress();
+      // If they've changed the value and then pressed enter
+      if (this.input.value === this.currentCase()) this.nextCase();
     } else if (
       this.input.value != this.currentCase().slice(0, this.input.value.length)
     ) {
@@ -68,59 +99,68 @@ class DowlingLatin {
     }
   }
 
-  nextWord(button) {
-    button.remove();
+  finish() {
+    window.location.replace(`/summary?what=${what}`);
+  }
+
+  nextCase() {
+    this.case++;
+    this.input.value = "";
+    this.render();
+  }
+  nextWord() {
     if (this.word < this.numWords - 1) {
       this.case = 0;
       this.word++;
-      this.updateHeadings();
+      this.render();
     } else {
       this.finish();
     }
   }
 
-  updateHeadings() {
+  renderInput(table, tableHolder) {
+    const th = mk("th", this.data.headings[this.case]);
+    const td = mk("td", [this.input]);
+    const tr = mk("tr", [th, td]);
+
+    table.appendChild(tr);
+    tableHolder.appendChild(table);
+    this.input.focus();
+  }
+
+  async renderNextButton(tableHolder) {
+    const button = mk("button", "Continue");
+    tableHolder.insertAdjacentElement("afterend", button);
+    button.focus();
+
+    await ev(button, "click");
+    button.remove();
+    this.nextWord();
+  }
+
+  render() {
     document.querySelector("h1").innerHTML = this.data.name;
-    document.querySelector("h2").innerHTML = this.data.words[this.word].name;
-    let table = document.createElement("table");
+    document.querySelector("h2").innerHTML = this.currentWord().name;
+    let table = mk("table");
     const tableHolder = document.getElementById("table-holder");
     tableHolder.innerHTML = "";
     for (let i = 0; i < this.case; i++) {
-      const tr = document.createElement("tr");
-      const th = document.createElement("th");
-      th.innerText = this.data.headings[i];
-      const td = document.createElement("td");
-      td.innerText = this.data.words[this.word].cases[i];
+      const th = mk("th", this.data.headings[i]);
+      const td = mk("td", this.currentWord().cases[i]);
+      const tr = mk("tr", [th, td]);
 
-      tr.appendChild(th);
-      tr.appendChild(td);
       table.appendChild(tr);
 
       if ((i + 1) % this.data.split === 0) {
         tableHolder.appendChild(table);
-        table = document.createElement("table");
+        table = mk("table");
       }
     }
 
     if (this.case < this.numCases) {
-      const tr = document.createElement("tr");
-      const th = document.createElement("th");
-      const td = document.createElement("td");
-      th.innerText = this.data.headings[this.case];
-      td.appendChild(this.input);
-      tr.appendChild(th);
-      tr.appendChild(td);
-
-      table.appendChild(tr);
-      tableHolder.appendChild(table);
-      this.input.focus();
+      this.renderInput(table, tableHolder);
     } else {
-      const button = document.createElement("button");
-      button.innerText = "Continue";
-      button.addEventListener("click", () => this.nextWord(button));
-      tableHolder.insertAdjacentElement("afterend", button);
-
-      button.focus();
+      this.renderNextButton(tableHolder);
     }
   }
 }
@@ -131,9 +171,7 @@ async function main() {
     const resp = await fetch(`/data/${what}.json`);
     const data = await resp.json();
 
-    new DowlingLatin(data, () =>
-      window.location.replace(`/summary?what=${what}`)
-    );
+    new DowlingLatin(data);
   } else {
     window.location.replace("/");
   }
