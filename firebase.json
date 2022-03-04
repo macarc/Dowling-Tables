@@ -2,12 +2,7 @@
   "hosting": {
     "public": "public",
     "cleanUrls": true,
-    "ignore": [
-      "firebase.json",
-      "verify.sh",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "verify.sh", "**/.*", "**/node_modules/**"],
     "headers": [
       {
         "source": "**/**",
