@@ -53,19 +53,19 @@ class DowlingInput {
   async onInput(e) {
     const ch = e.data;
     if ((ch > "z" || ch < "a") && ch !== " ") {
-      const rep = (oldCh, newCh) => {
+      function replace(oldCh, newCh) {
         if (ch === oldCh) {
           this.el.value = this.el.value.replace(oldCh, newCh);
           return false;
         }
         return true;
-      };
+      }
       if (
-        rep("A", "ā") &&
-        rep("E", "ē") &&
-        rep("I", "ī") &&
-        rep("O", "ō") &&
-        rep("U", "ū")
+        replace("A", "ā") &&
+        replace("E", "ē") &&
+        replace("I", "ī") &&
+        replace("O", "ō") &&
+        replace("U", "ū")
       )
         this.el.value = this.el.value.slice(0, -1);
     }
@@ -92,13 +92,10 @@ class DowlingInput {
   }
 }
 
-// Main class - controls movement through words
+// Main class - controls application flow
 class DowlingLatin {
   word = 0;
   case = 0;
-
-  numWords = 0;
-  numCases = 0;
 
   constructor(data) {
     this.data = data;
@@ -130,13 +127,11 @@ class DowlingLatin {
     this.render();
   }
   nextWord() {
-    if (this.word < this.numWords - 1) {
-      this.case = 0;
-      this.word++;
-      this.render();
-    } else {
-      this.finish();
-    }
+    if (this.word >= this.numWords) this.finish();
+    this.case = 0;
+    this.word++;
+    this.input.clear();
+    this.render();
   }
 
   renderInput(table, tableHolder) {
