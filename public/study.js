@@ -1,4 +1,4 @@
-/*** HELPER ***/
+// Helpers
 async function ev(element, event) {
   return new Promise((res) => {
     function eventListener(e) {
@@ -27,7 +27,72 @@ function mk(tagName, inner = null) {
   return el;
 }
 
-/*** DOWLING ***/
+// Wrapper for input element with macrons and coloured feedback
+class DowlingInput {
+  constructor(word, next) {
+    this.word = word;
+    this.next = next;
+    this.el = mk("input", {
+      spellcheck: "false",
+      autocorrect: "off",
+      autocapitalize: "off",
+      autocomplete: "off",
+    });
+    this.el.addEventListener("input", this.onInput.bind(this));
+  }
+
+  clear() {
+    this.el.value = "";
+  }
+
+  async enterPress() {
+    let e = {};
+    while (e.keyCode !== 13) e = await ev(this.el, "keyup");
+  }
+
+  async onInput(e) {
+    const ch = e.data;
+    if ((ch > "z" || ch < "a") && ch !== " ") {
+      const rep = (oldCh, newCh) => {
+        if (ch === oldCh) {
+          this.el.value = this.el.value.replace(oldCh, newCh);
+          return false;
+        }
+        return true;
+      };
+      if (
+        rep("A", "ā") &&
+        rep("E", "ē") &&
+        rep("I", "ī") &&
+        rep("O", "ō") &&
+        rep("U", "ū")
+      )
+        this.el.value = this.el.value.slice(0, -1);
+    }
+
+    if (this.el.value === this.word()) {
+      this.el.classList = "right";
+
+      await this.enterPress();
+      // If they've changed the value and then pressed enter
+      if (this.el.value === this.word()) this.next();
+    } else if (this.el.value != this.word().slice(0, this.el.value.length)) {
+      this.el.classList = "wrong";
+    } else {
+      this.el.classList = "";
+    }
+  }
+
+  focus() {
+    this.el.focus();
+  }
+
+  render() {
+    return this.el;
+  }
+}
+
+// Main class - controls movement through words
 class DowlingLatin {
   word = 0;
   case = 0;
@@ -40,21 +105,12 @@ class DowlingLatin {
 
     this.numWords = data.words.length;
     this.numCases = data.headings.length;
-
-    this.input = mk("input", {
-      spellcheck: "false",
-      autocorrect: "off",
-      autocapitalize: "off",
-      autocomplete: "off",
-    });
-    this.input.addEventListener("input", this.onInput.bind(this));
+    this.input = new DowlingInput(
+      this.currentCase.bind(this),
+      this.nextCase.bind(this)
+    );
 
     this.render();
-  }
-
-  async enterPress() {
-    let e = {};
-    while (e.keyCode !== 13) e = await ev(this.input, "keyup");
   }
 
   currentWord() {
@@ -64,48 +120,13 @@ class DowlingLatin {
     return this.currentWord().cases[this.case];
   }
 
-  async onInput(e) {
-    const ch = e.data;
-    if ((ch > "z" || ch < "a") && ch !== " ") {
-      const rep = (oldCh, newCh) => {
-        if (ch === oldCh) {
-          this.input.value = this.input.value.replace(oldCh, newCh);
-          return false;
-        }
-        return true;
-      };
-      if (
-        rep("A", "ā") &&
-        rep("E", "ē") &&
-        rep("I", "ī") &&
-        rep("O", "ō") &&
-        rep("U", "ū")
-      )
-        this.input.value = this.input.value.slice(0, -1);
-    }
-
-    if (this.input.value === this.currentCase()) {
-      this.input.classList = "right";
-
-      await this.enterPress();
-      // If they've changed the value and then pressed enter
-      if (this.input.value === this.currentCase()) this.nextCase();
-    } else if (
-      this.input.value != this.currentCase().slice(0, this.input.value.length)
-    ) {
-      this.input.classList = "wrong";
-    } else {
-      this.input.classList = "";
-    }
-  }
-
   finish() {
     window.location.replace(`/summary?what=${what}`);
   }
 
   nextCase() {
     this.case++;
-    this.input.value = "";
+    this.input.clear();
     this.render();
   }
   nextWord() {
@@ -120,7 +141,7 @@ class DowlingLatin {
 
   renderInput(table, tableHolder) {
     const th = mk("th", this.data.headings[this.case]);
-    const td = mk("td", [this.input]);
+    const td = mk("td", [this.input.render()]);
     const tr = mk("tr", [th, td]);
 
     table.appendChild(tr);
