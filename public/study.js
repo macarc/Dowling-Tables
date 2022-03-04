@@ -40,7 +40,7 @@ class DowlingLatin {
 
   onInput(e) {
     const ch = e.data;
-    if (ch > "z" || ch < "a") {
+    if ((ch > "z" || ch < "a") && ch !== " ") {
       this.input.value = this.input.value.slice(0, -1);
       if (ch === "A") this.input.value += "ā";
       if (ch === "E") this.input.value += "ē";
